@@ -3,644 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permintaan Maaf</title>
+    <title>Animasi Garis Gambar</title>
     <style>
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f9f1f1;
-            color: #333;
-            line-height: 1.6;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .container {
-            max-width: 100%;
-            padding: 20px;
+            max-width: 90%;
+            width: 800px;
             margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
             padding: 20px;
-            background-color: #e74c3c;
-            color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         
         h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .message {
-            background-color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .message h2 {
-            color: #e74c3c;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-        
-        .message p {
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        
-        .game-container {
-            margin-top: 30px;
+            color: #333;
             margin-bottom: 30px;
         }
         
-        .game-box {
-            background-color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        .game-box h3 {
-            color: #e74c3c;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-        
-        .game-box p {
-            margin-bottom: 15px;
+        .button-container {
+            margin: 20px 0;
         }
         
         button {
-            background-color: #e74c3c;
+            background-color: #ff6b6b;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
+            font-size: 16px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
         
         button:hover {
-            background-color: #c0392b;
-            transform: scale(1.05);
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         
-        /* Block Blast Game */
-        .block-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            max-width: 300px;
-            margin: 20px auto;
+        button:active {
+            transform: translateY(0);
         }
         
-        .block {
-            height: 50px;
+        canvas {
+            background-color: white;
             border-radius: 8px;
-            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            margin-top: 20px;
+            transition: filter 0.5s ease;
+        }
+        
+        .blur {
+            filter: blur(3px);
+        }
+        
+        .controls {
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .block:hover {
-            transform: scale(1.1);
-        }
-        
-        /* TicTacToe Game */
-        .tic-tac-toe {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            margin-top: 15px;
             gap: 10px;
-            max-width: 300px;
-            margin: 20px auto;
         }
         
-        .cell {
-            height: 80px;
-            background-color: #f9f1f1;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: bold;
-            transition: all 0.3s ease;
+        .reset-btn {
+            background-color: #6c757d;
         }
         
-        .cell:hover {
-            background-color: #f1d9d9;
+        .reset-btn:hover {
+            background-color: #5a6268;
         }
         
-        .game-status {
-            margin: 20px 0;
-            font-weight: bold;
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px 30px;
+            border-radius: 50px;
             font-size: 18px;
-            min-height: 27px;
-        }
-        
-        .score {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .score-item {
-            padding: 10px 15px;
-            background-color: #f1d9d9;
-            border-radius: 10px;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e74c3c;
-            color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .heart {
-            color: #e74c3c;
-            font-size: 24px;
-            animation: pulse 1s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Tabs for games */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .tab-button {
-            background-color: #f1d9d9;
-            color: #333;
-        }
-        
-        .tab-button.active {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .tab-content {
+            font-weight: bold;
+            color: #ff6b6b;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
             display: none;
         }
         
-        .tab-content.active {
-            display: block;
+        .loading {
+            display: inline-block;
+            width: 20px;
+            text-align: left;
         }
         
-        /* Responsive adjustments */
+        .final-message {
+            font-size: 24px;
+            color: #ff5252;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-            
             h1 {
                 font-size: 24px;
             }
             
-            .message h2 {
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .message {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+            
+            .final-message {
                 font-size: 20px;
-            }
-            
-            .block-grid {
-                grid-template-columns: repeat(4, 1fr);
-                max-width: 250px;
-            }
-            
-            .block {
-                height: 45px;
-            }
-            
-            .tic-tac-toe {
-                max-width: 250px;
-            }
-            
-            .cell {
-                height: 70px;
-                font-size: 28px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Em Sorriii</h1>
-        </header>
-        
-        <div class="message">
-            <h2>Hai Jeje Aulia Putri</h2>
-            <p>Aku mau minta maaf atas kesalahanku. Aku tahu aku kurang fokus mendengarkan apa yang kamu bicarakan. Kamu pantas untuk didengarkan dengan perhatian penuh.</p>
-            <p>Aku sadar perhatian dan fokus adalah bentuk penghargaan. Dan aku ingin kamu tahu aku sangat menghargai keberadaanmu dalam hidupku.</p>
-            <p>Untuk menghiburmu, aku membuatkan dua game kecil di bawah ini. Semoga bisa menghiburmu dan membuatmu tersenyum kembali.</p>
-            <p>Si manis imut ganteng gemas nsewapi</p>
+        <h1>Membuat muka jeje dengan sangat realistik..</h1>
+        <div class="button-container">
+            <button id="start-btn">Mulai Animasi</button>
         </div>
-        
-        <div class="game-container">
-            <div class="tabs">
-                <button class="tab-button active" onclick="openTab('blockBlast')">Block</button>
-                <button class="tab-button" onclick="openTab('ticTacToe')">Tic Tac Toe</button>
-            </div>
-            
-            <div id="blockBlast" class="tab-content active">
-                <div class="game-box">
-                    <h3>Block</h3>
-                    <p>Hancurkan blok-blok untuk menemukan pesan tersembunyi!</p>
-                    <div class="score">
-                        <div class="score-item">Skor: <span id="blastScore">0</span></div>
-                        <div class="score-item">Level: <span id="blastLevel">1</span></div>
-                    </div>
-                    <div class="block-grid" id="blockGrid"></div>
-                    <button onclick="resetBlockBlast()">Mulai Baru</button>
-                </div>
-            </div>
-            
-            <div id="ticTacToe" class="tab-content">
-                <div class="game-box">
-                    <h3>Tic Tac Toe</h3>
-                    <p>Bermain XOX denganku! Kamu "X", aku "O"</p>
-                    <div class="game-status" id="gameStatus"></div>
-                    <div class="tic-tac-toe" id="ticTacToeBoard"></div>
-                    <button onclick="resetTicTacToe()">Mulai Baru</button>
-                </div>
-            </div>
+        <div class="controls">
+            <button id="reset-btn" class="reset-btn">Reset</button>
         </div>
-        
-        <div class="footer">
-            <p>Aku akan berusaha lebih baik lagi mendengarkanmu dan memberikan perhatian yang kamu pantas dapatkan.</p>
-            <p>Dengan tulus, <span class="heart">♥</span></p>
+        <div id="canvas-container" style="position: relative;">
+            <canvas id="drawingCanvas" width="600" height="600"></canvas>
+            <div id="wait-message" class="message">Sabar, sedikit lagi<span class="loading">...</span></div>
         </div>
+        <div id="final-message" class="final-message">Foto muka kamu sudah jadi! 😊</div>
     </div>
 
     <script>
-        // Tab functionality
-        function openTab(tabName) {
-            const tabContents = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
-            }
-            
-            const tabButtons = document.getElementsByClassName("tab-button");
-            for (let i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove("active");
-            }
-            
-            document.getElementById(tabName).classList.add("active");
-            event.currentTarget.classList.add("active");
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const waitMessage = document.getElementById('wait-message');
+        const finalMessage = document.getElementById('final-message');
+        
+        // Menyesuaikan ukuran canvas untuk responsive
+        function resizeCanvas() {
+            const container = document.querySelector('.container');
+            const maxWidth = Math.min(container.clientWidth - 40, 600);
+            canvas.style.width = maxWidth + 'px';
+            canvas.style.height = maxWidth + 'px';
         }
         
-        // Block Blast Game
-        let blockBlastScore = 0;
-        let blockBlastLevel = 1;
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
         
-        function initBlockBlast() {
-            const blockGrid = document.getElementById("blockGrid");
-            blockGrid.innerHTML = "";
+        // Data titik-titik untuk membentuk wajah dengan garis
+        const facePoints = [
+            // Outline wajah - oval
+            {x: 300, y: 150}, {x: 350, y: 160}, {x: 400, y: 180}, 
+            {x: 450, y: 220}, {x: 470, y: 280}, {x: 460, y: 350}, 
+            {x: 430, y: 400}, {x: 380, y: 450}, {x: 300, y: 470},
+            {x: 220, y: 450}, {x: 170, y: 400}, {x: 140, y: 350},
+            {x: 130, y: 280}, {x: 150, y: 220}, {x: 200, y: 180},
+            {x: 250, y: 160}, {x: 300, y: 150},
             
-            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6'];
+            // Mata kiri
+            {x: 230, y: 270}, {x: 250, y: 260}, {x: 270, y: 270},
+            {x: 250, y: 280}, {x: 230, y: 270},
             
-            for (let i = 0; i < 20; i++) {
-                const block = document.createElement("div");
-                block.className = "block";
-                const colorIndex = Math.floor(Math.random() * colors.length);
-                block.style.backgroundColor = colors[colorIndex];
-                block.dataset.points = Math.floor(Math.random() * 5) + 1;
-                block.textContent = block.dataset.points;
+            // Mata kanan
+            {x: 330, y: 270}, {x: 350, y: 260}, {x: 370, y: 270},
+            {x: 350, y: 280}, {x: 330, y: 270},
+            
+            // Hidung
+            {x: 300, y: 300}, {x: 290, y: 330}, {x: 300, y: 340},
+            {x: 310, y: 330}, {x: 300, y: 300},
+            
+            // Mulut
+            {x: 260, y: 370}, {x: 280, y: 390}, {x: 300, y: 400},
+            {x: 320, y: 390}, {x: 340, y: 370},
+            
+            // Alis kiri
+            {x: 220, y: 240}, {x: 240, y: 230}, {x: 260, y: 240},
+            
+            // Alis kanan
+            {x: 340, y: 240}, {x: 360, y: 230}, {x: 380, y: 240},
+            
+            // Hati di samping (decorative)
+            {x: 450, y: 300}, {x: 470, y: 270}, {x: 490, y: 300},
+            {x: 470, y: 330}, {x: 450, y: 300}
+        ];
+        
+        let animationId = null;
+        let currentPoint = 0;
+        let isDrawing = false;
+        let loadingDotsInterval;
+        let messageTimeout;
+        let loadingDots = 0;
+        
+        // Fungsi untuk mengelola titik animasi loading
+        function updateLoadingDots() {
+            loadingDots = (loadingDots + 1) % 4;
+            const dots = '.'.repeat(loadingDots);
+            document.querySelector('.loading').textContent = dots + ' '.repeat(3 - loadingDots);
+        }
+        
+        // Fungsi untuk menggambar garis dengan delay
+        function drawLine(startX, startY, endX, endY, callback) {
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = '#ff6b6b';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            if (callback) {
+                setTimeout(callback, Math.random() * 200 + 100); // Random delay between 100ms and 300ms
+            }
+        }
+        
+        // Fungsi untuk menampilkan pesan "sedikit lagi" secara periodik
+        function showWaitMessage() {
+            // Menampilkan pesan setelah beberapa titik
+            if (currentPoint === 5 || currentPoint === 15 || currentPoint === 25 || currentPoint === 35) {
+                waitMessage.style.display = 'block';
                 
-                block.addEventListener("click", function() {
-                    const points = parseInt(this.dataset.points);
-                    blockBlastScore += points;
-                    document.getElementById("blastScore").textContent = blockBlastScore;
+                // Memulai animasi titik loading
+                if (!loadingDotsInterval) {
+                    loadingDotsInterval = setInterval(updateLoadingDots, 500);
+                }
+                
+                // Menyembunyikan pesan setelah beberapa saat
+                clearTimeout(messageTimeout);
+                messageTimeout = setTimeout(() => {
+                    waitMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Fungsi untuk memulai animasi
+        function startAnimation() {
+            if (isDrawing) return;
+            
+            isDrawing = true;
+            currentPoint = 0;
+            startBtn.disabled = true;
+            resetBtn.disabled = true;
+            finalMessage.style.display = 'none';
+            
+            // Menambahkan efek blur pada canvas
+            canvas.classList.add('blur');
+            
+            // Menggambar frame pertama
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(facePoints[0].x, facePoints[0].y);
+            
+            // Memulai loading dots animation
+            loadingDotsInterval = setInterval(updateLoadingDots, 500);
+            
+            // Fungsi animasi untuk menggambar titik berikutnya
+            function animate() {
+                if (currentPoint < facePoints.length - 1) {
+                    const startPoint = facePoints[currentPoint];
+                    const endPoint = facePoints[currentPoint + 1];
                     
-                    // Add visual feedback
-                    this.style.transform = "scale(0)";
+                    // Menampilkan pesan tunggu secara acak
+                    showWaitMessage();
+                    
+                    // Mengurangi blur sedikit demi sedikit
+                    if (currentPoint > facePoints.length * 0.7) {
+                        canvas.style.filter = `blur(${3 - (currentPoint / facePoints.length) * 3}px)`;
+                    }
+                    
+                    drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, () => {
+                        currentPoint++;
+                        animationId = requestAnimationFrame(animate);
+                    });
+                } else {
+                    // Animasi selesai
+                    clearInterval(loadingDotsInterval);
+                    loadingDotsInterval = null;
+                    waitMessage.style.display = 'none';
+                    
+                    // Menghapus blur secara perlahan
+                    canvas.classList.remove('blur');
+                    
+                    // Menampilkan pesan akhir
                     setTimeout(() => {
-                        this.style.backgroundColor = getRandomColor();
-                        this.dataset.points = Math.floor(Math.random() * 5 * blockBlastLevel) + 1;
-                        this.textContent = this.dataset.points;
-                        this.style.transform = "scale(1)";
-                    }, 300);
-                    
-                    // Level up every 50 points
-                    if (blockBlastScore >= blockBlastLevel * 50) {
-                        blockBlastLevel++;
-                        document.getElementById("blastLevel").textContent = blockBlastLevel;
-                        
-                        // Add level up message
-                        const message = document.createElement("div");
-                        message.textContent = "Level Up! ♥";
-                        message.style.position = "absolute";
-                        message.style.left = "50%";
-                        message.style.top = "50%";
-                        message.style.transform = "translate(-50%, -50%)";
-                        message.style.fontSize = "24px";
-                        message.style.color = "#e74c3c";
-                        message.style.fontWeight = "bold";
-                        message.style.zIndex = "100";
-                        message.style.animation = "fadeOut 2s forwards";
-                        
-                        blockGrid.parentNode.style.position = "relative";
-                        blockGrid.parentNode.appendChild(message);
-                        
-                        setTimeout(() => {
-                            blockGrid.parentNode.removeChild(message);
-                        }, 2000);
-                    }
-                    
-                    // Special message at certain scores
-                    if (blockBlastScore === 25) {
-                        showMessage("Kamu hebat! Terus bermain!");
-                    } else if (blockBlastScore === 50) {
-                        showMessage("Kamu tahu? Senyummu sangat indah.");
-                    } else if (blockBlastScore === 100) {
-                        showMessage("Kamu pemaaf yang luar biasa ♥");
-                    } else if (blockBlastScore === 150) {
-                        showMessage("Terima kasih sudah menjadi bagian hidupku.");
-                    }
-                });
-                
-                blockGrid.appendChild(block);
+                        finalMessage.style.display = 'block';
+                        isDrawing = false;
+                        startBtn.disabled = false;
+                        resetBtn.disabled = false;
+                    }, 1000);
+                }
             }
-        }
-        
-        function resetBlockBlast() {
-            blockBlastScore = 0;
-            blockBlastLevel = 1;
-            document.getElementById("blastScore").textContent = blockBlastScore;
-            document.getElementById("blastLevel").textContent = blockBlastLevel;
-            initBlockBlast();
-        }
-        
-        function getRandomColor() {
-            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-        
-        function showMessage(text) {
-            const blockGrid = document.getElementById("blockGrid");
-            const message = document.createElement("div");
-            message.textContent = text;
-            message.style.position = "absolute";
-            message.style.left = "50%";
-            message.style.top = "50%";
-            message.style.transform = "translate(-50%, -50%)";
-            message.style.fontSize = "18px";
-            message.style.color = "#e74c3c";
-            message.style.fontWeight = "bold";
-            message.style.zIndex = "100";
-            message.style.backgroundColor = "rgba(255,255,255,0.9)";
-            message.style.padding = "10px 20px";
-            message.style.borderRadius = "10px";
-            message.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
-            message.style.animation = "fadeOut 3s forwards";
             
-            blockGrid.parentNode.style.position = "relative";
-            blockGrid.parentNode.appendChild(message);
-            
+            // Delay awal untuk menambah antisipasi
             setTimeout(() => {
-                blockGrid.parentNode.removeChild(message);
-            }, 3000);
+                animationId = requestAnimationFrame(animate);
+            }, 1500);
         }
         
-        // TicTacToe Game
-        let currentPlayer = 'X';
-        let gameBoard = ['', '', '', '', '', '', '', '', ''];
-        let gameActive = true;
-        
-        function initTicTacToe() {
-            const board = document.getElementById("ticTacToeBoard");
-            board.innerHTML = "";
-            
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement("div");
-                cell.className = "cell";
-                cell.dataset.index = i;
-                
-                cell.addEventListener("click", function() {
-                    const index = this.dataset.index;
-                    if (gameBoard[index] === '' && gameActive) {
-                        gameBoard[index] = currentPlayer;
-                        this.textContent = currentPlayer;
-                        this.style.color = currentPlayer === 'X' ? '#e74c3c' : '#3498db';
-                        
-                        if (checkWinner()) {
-                            document.getElementById("gameStatus").textContent = `${currentPlayer} menang!`;
-                            showTicTacToeMessage(currentPlayer === 'X' ? "Kamu menang! Kamu memang hebat ♥" : "Aku menang! Tapi tetap kamu yang terbaik!");
-                            gameActive = false;
-                        } else if (!gameBoard.includes('')) {
-                            document.getElementById("gameStatus").textContent = "Permainan seri!";
-                            showTicTacToeMessage("Seri! Kita sama-sama hebat!");
-                            gameActive = false;
-                        } else {
-                            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                            document.getElementById("gameStatus").textContent = `Giliran ${currentPlayer}`;
-                            
-                            // If it's computer's turn (O)
-                            if (currentPlayer === 'O' && gameActive) {
-                                setTimeout(computerMove, 700);
-                            }
-                        }
-                    }
-                });
-                
-                board.appendChild(cell);
+        // Fungsi untuk reset canvas
+        function resetCanvas() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
             }
             
-            document.getElementById("gameStatus").textContent = "Giliran X (Kamu)";
+            if (loadingDotsInterval) {
+                clearInterval(loadingDotsInterval);
+                loadingDotsInterval = null;
+            }
+            
+            if (messageTimeout) {
+                clearTimeout(messageTimeout);
+            }
+            
+            waitMessage.style.display = 'none';
+            finalMessage.style.display = 'none';
+            canvas.classList.remove('blur');
+            
+            isDrawing = false;
+            startBtn.disabled = false;
+            resetBtn.disabled = false;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
         
-        function computerMove() {
-            // Check for winning move
-            for (let i = 0; i < 9; i++) {
-                if (gameBoard[i] === '') {
-                    gameBoard[i] = 'O';
-                    if (checkWinner()) {
-                        makeMove(i);
-                        return;
-                    }
-                    gameBoard[i] = '';
-                }
-            }
-            
-            // Check for blocking move
-            for (let i = 0; i < 9; i++) {
-                if (gameBoard[i] === '') {
-                    gameBoard[i] = 'X';
-                    if (checkWinner()) {
-                        gameBoard[i] = 'O';
-                        makeMove(i);
-                        return;
-                    }
-                    gameBoard[i] = '';
-                }
-            }
-            
-            // Take center if available
-            if (gameBoard[4] === '') {
-                gameBoard[4] = 'O';
-                makeMove(4);
-                return;
-            }
-            
-            // Take a random available spot
-            const availableMoves = [];
-            for (let i = 0; i < 9; i++) {
-                if (gameBoard[i] === '') {
-                    availableMoves.push(i);
-                }
-            }
-            
-            if (availableMoves.length > 0) {
-                const randomIndex = Math.floor(Math.random() * availableMoves.length);
-                const moveIndex = availableMoves[randomIndex];
-                gameBoard[moveIndex] = 'O';
-                makeMove(moveIndex);
-            }
-        }
+        // Menambahkan event listeners
+        startBtn.addEventListener('click', startAnimation);
+        resetBtn.addEventListener('click', resetCanvas);
         
-        function makeMove(index) {
-            const cells = document.getElementsByClassName("cell");
-            cells[index].textContent = 'O';
-            cells[index].style.color = '#3498db';
-            
-            if (checkWinner()) {
-                document.getElementById("gameStatus").textContent = "O menang!";
-                showTicTacToeMessage("Aku menang! Tapi tetap kamu yang terbaik!");
-                gameActive = false;
-            } else if (!gameBoard.includes('')) {
-                document.getElementById("gameStatus").textContent = "Permainan seri!";
-                showTicTacToeMessage("Seri! Kita sama-sama hebat!");
-                gameActive = false;
-            } else {
-                currentPlayer = 'X';
-                document.getElementById("gameStatus").textContent = "Giliran X (Kamu)";
-            }
-        }
-        
-        function checkWinner() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-                [0, 4, 8], [2, 4, 6]             // diagonals
-            ];
-            
-            for (const pattern of winPatterns) {
-                const [a, b, c] = pattern;
-                if (gameBoard[a] !== '' && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-                    // Highlight winning cells
-                    const cells = document.getElementsByClassName("cell");
-                    cells[a].style.backgroundColor = '#f1d9d9';
-                    cells[b].style.backgroundColor = '#f1d9d9';
-                    cells[c].style.backgroundColor = '#f1d9d9';
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-        
-        function resetTicTacToe() {
-            gameBoard = ['', '', '', '', '', '', '', '', ''];
-            currentPlayer = 'X';
-            gameActive = true;
-            
-            const cells = document.getElementsByClassName("cell");
-            for (let i = 0; i < cells.length; i++) {
-                cells[i].textContent = '';
-                cells[i].style.backgroundColor = '#f9f1f1';
-            }
-            
-            document.getElementById("gameStatus").textContent = "Giliran X (Kamu)";
-        }
-        
-        function showTicTacToeMessage(text) {
-            const board = document.getElementById("ticTacToeBoard");
-            const message = document.createElement("div");
-            message.textContent = text;
-            message.style.position = "absolute";
-            message.style.left = "50%";
-            message.style.top = "50%";
-            message.style.transform = "translate(-50%, -50%)";
-            message.style.fontSize = "18px";
-            message.style.color = "#e74c3c";
-            message.style.fontWeight = "bold";
-            message.style.zIndex = "100";
-            message.style.backgroundColor = "rgba(255,255,255,0.9)";
-            message.style.padding = "10px 20px";
-            message.style.borderRadius = "10px";
-            message.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
-            message.style.textAlign = "center";
-            
-            board.parentNode.style.position = "relative";
-            board.parentNode.appendChild(message);
-            
-            setTimeout(() => {
-                board.parentNode.removeChild(message);
-            }, 3000);
-        }
-        
-        // Initialize games on load
-        window.onload = function() {
-            initBlockBlast();
-            initTicTacToe();
-            
-            // Add animation to some elements for better UX
-            document.querySelector(".heart").addEventListener("click", function() {
-                this.style.animation = "none";
-                setTimeout(() => {
-                    this.style.animation = "pulse 1s infinite";
-                }, 10);
-                
-                const messages = [
-                    "Maafkan aku ya",
-                    "Aku janji akan lebih fokus",
-                    "Kamu berharga bagiku",
-                    "Terima kasih atas kesabaranmu"
-                ];
-                
-                alert(messages[Math.floor(Math.random() * messages.length)]);
-            });
-        };
-        
-        // Add fade out animation
-        document.head.insertAdjacentHTML("beforeend", `
-            <style>
-                @keyframes fadeOut {
-                    0% { opacity: 1; }
-                    70% { opacity: 1; }
-                    100% { opacity: 0; }
-                }
-            </style>
-        `);
+        // Inisialisasi
+        resetCanvas();
     </script>
 </body>
 </html>
